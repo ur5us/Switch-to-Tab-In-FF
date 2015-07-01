@@ -1,0 +1,21 @@
+{
+  "name": "ffe",
+  "version": "0.0.1",
+  "authors": [
+    "Prakash <prakraja@umail.iu.edu>"
+  ],
+  "main": "main.js",
+  "license": "MIT",
+  "homepage": "prak5190.github.io",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-combobox": "~1.1.6",
+    "jquery": "~2.1.4"
+  }
+}

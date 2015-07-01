@@ -1,0 +1,13 @@
+{
+  "title": "Switch to Tab",
+  "name": "switch-to-tab",
+  "version": "0.0.1",
+  "description": "Textually Switch to tab similar to emacs ",
+  "main": "index.js",
+  "author": "Prakash Rajagopal",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MIT"
+}
