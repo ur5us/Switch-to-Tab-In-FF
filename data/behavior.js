@@ -1,18 +1,38 @@
-console.log('2323');
-function kk () {
-  console.log('232 - really 3');
+var selDom;
+function init() {
+  selDom = $(".js-example-basic-single");
+  selDom.select2();
 }
-var sel,selDom;
+function destroy() {
+  selDom = $(".js-example-basic-single");
+  selDom.select2("destroy");
+}
+function createList(arr) {
+  var strArr = arr.map(function(x) {
+    return "<option>"+x.title+"</option>";
+  });
+  selDom = $(".js-example-basic-single");
+  selDom.html(strArr.join(""));  
+}
 if (typeof addon != "undefined") {
+  var sel;
   console.log('232 -213333333333 really 3');;
-  addon.port.on('show', function() {    
-    sel = selDom.data('select2');
-    sel.open();
+  addon.port.on('hide',function() {
+    if (sel && sel.close)
+      sel.close();
+  });  
+  addon.on('message',function(msg) {
+    var arr = JSON.parse(msg);
+    createList(arr);
+    console.log(msg);
+    init();
+    setTimeout(function() {
+      sel = selDom.data('select2');
+      sel.open();    
+    },1);
   });
 }
 
-$(document).ready(function() {
-  selDom = $(".js-example-basic-single").select2();  
-});
+
 
 console.log("in indexxxx ");

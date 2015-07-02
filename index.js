@@ -22,10 +22,10 @@ var button = buttons.ActionButton({
 });
 
 
-function getAllTabDetails() {
+function getAllTabDetails(hasTabs) {
   var arr = [];
   for (var i = 0 ; i < tabs.length; i++) {
-    arr.push({title : tabs[i].title, url : tabs[i].url , tab : tabs[i]});
+    arr.push({title : tabs[i].title, url : tabs[i].url , tab : hasTabs? tabs[i] : undefined});
   };
   return arr;
 }
@@ -53,7 +53,14 @@ var panel = require("sdk/panel").Panel({
 panel.on('show', function() {
   console.log("Showing panel");
   panel.port.emit('show');
+  panel.postMessage(JSON.stringify(getAllTabDetails(false)));
 });
+
+panel.on('hide', function() {
+  panel.port.emit('hide');
+});
+
+
 
 var showHotKey = Hotkey({
   combo: "alt-p",
