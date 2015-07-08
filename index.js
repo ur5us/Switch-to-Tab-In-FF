@@ -29,10 +29,18 @@ function getAllTabDetails(hasTabs) {
   };
   return arr;
 }
-
-function gotoTab(name) {
-  
+function selectTabByIndex(ind) {
+  tabs[ind].activate();
 }
+function selectTab(url) {
+  for (var i = 0 ; i < tabs.length; i++) {
+    if (tabs[i].url == url) {
+      tabs[i].activate();
+      break;
+    }
+  };
+}
+
 function handleClick(state) {
   tabs.open("https://developer.mozilla.org/");
 }
@@ -55,15 +63,18 @@ panel.on('show', function() {
   panel.port.emit('show');
   panel.postMessage(JSON.stringify(getAllTabDetails(false)));
 });
-
+panel.port.on('selectTab',function(d) {
+  // selectTab(d.url);
+  selectTabByIndex(d.index);
+  panel.hide();
+}); 
+console.log(133131313113);
 panel.on('hide', function() {
   panel.port.emit('hide');
 });
 
-
-
 var showHotKey = Hotkey({
-  combo: "alt-p",
+  combo: "alt-b",
   onPress: function() {
     console.log("Pressed1");
     panel.show();
