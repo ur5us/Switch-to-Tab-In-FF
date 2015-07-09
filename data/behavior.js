@@ -1,9 +1,25 @@
+var self = this;
+function getScreenSize() {
+  return { width : self.screen.availWidth, height : self.screen.availHeight };
+};
+
 function init() {
   var selDom = $(".js-example-basic-single");
   selDom.select2({
-    placeholder : "Type tab title or url to select it",
-    "width": "resolve"
+    placeholder : "Type tab title or url to select it"
   });
+  var s = selDom.data('select2');
+  var c = s.$container;
+  var r = s.$results;
+  setTimeout(function() {
+    // Send a resize event with the exact size
+    var wid = c.outerWidth() + 30;
+    s.open();
+    var hei = r.outerHeight() + 100;
+    console.log("Width Height " , wid , "-" , hei);
+    var size = getScreenSize();
+    addon.port.emit('resize',{width:wid,height: hei, left : (size.width-wid)/2 });
+  },1);
 }
 function destroy() {
   var selDom = $(".js-example-basic-single");
@@ -11,7 +27,9 @@ function destroy() {
 }
 function createList(arr) {
   var strArr = arr.map(function(x) {
-    return "<option value='"+x.url+"'>"+x.title+"</option>";
+    var title = x.title || "";
+    title = title.length > 100 ? title.substr(0,98) + ".." : title;
+    return "<option value='"+x.url+"'>"+title+"</option>";
   });
   var selDom = $(".js-example-basic-single");
   selDom.html(strArr.join(""));  
@@ -34,21 +52,11 @@ function initEvents() {
 }
 
 if (typeof addon != "undefined") {
-  var sel;
-  addon.port.on('hide',function() {
-    if (sel && sel.close)
-      sel.close();
-  });
   addon.on('message',function(msg) {
     var arr = JSON.parse(msg);
     createList(arr);
     init();
     initEvents();
-    setTimeout(function() {
-      var selDom = $(".js-example-basic-single");
-      sel = selDom.data('select2');
-      sel.open();
-    },1);
   });
 };
 

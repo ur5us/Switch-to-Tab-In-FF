@@ -1,7 +1,7 @@
 {
   "title": "Switch to Tab",
   "name": "switch-to-tab",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Textually Switch to tab similar to emacs ",
   "main": "index.js",
   "author": "Prakash Rajagopal",
