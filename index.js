@@ -22,11 +22,6 @@ function selectTabByIndex(id) {
   }
 }
 
-// Returns sorted array as per name
-function getTab(search , arr) {
-  return [];
-}
-
 var panel = require("sdk/panel").Panel({
   position: {
     top: 10
@@ -79,5 +74,3 @@ var showHotKey = Hotkey({
     togglePanel();
   }
 });
-
-exports.getTab = getTab;
