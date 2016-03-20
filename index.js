@@ -34,15 +34,6 @@ function togglePanel() {
   panel.isShowing ? panel.hide() : panel.show();
 };
 
-function reposition() {
-  suppressTrigger = true;
-  panel.hide();
-  panel.show();
-  panel.one('show', function() {
-    suppressTrigger = false;
-  });
-}
-
 panel.on('show', function() {
   if (suppressTrigger)
     return;
@@ -59,7 +50,6 @@ panel.port.on('resize', function(e) {
   var wid = e.width;
   var hei = e.height;
   panel.resize(wid,hei);
-  //reposition();
 });
 
 panel.on('hide', function() {
