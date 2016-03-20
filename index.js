@@ -15,7 +15,7 @@ function byTabId(id) {
   }
 }
 
-function selectTabByIndex(id) {
+function selectTabById(id) {
   tab = Array.prototype.find.call(tabs, byTabId(id));
   if (tab !== undefined) {
     tab.activate();
@@ -51,7 +51,7 @@ panel.on('show', function() {
 });
 
 panel.port.on('selectTab', function(tabID) {
-  selectTabByIndex(tabID);
+  selectTabById(tabID);
   panel.hide();
 });
 
