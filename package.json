@@ -2,12 +2,16 @@
   "title": "Switch to Tab",
   "name": "switch-to-tab",
   "version": "0.0.3",
-  "description": "Textually Switch to tab similar to emacs ",
+  "description": "Textually Switch to tab similar to emacs",
   "main": "index.js",
-  "author": "Prakash Rajagopal",
+  "author": "Juri Hahn",
   "engines": {
     "firefox": ">=38.0a1",
     "fennec": ">=38.0a1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jQuery": "^2.2.2",
+    "select2": "^4.0.2"
+  }
 }

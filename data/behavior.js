@@ -1,63 +1,70 @@
-var self = this;
 function getScreenSize() {
   return { width : self.screen.availWidth, height : self.screen.availHeight };
 };
 
 function init() {
-  var selDom = $(".js-example-basic-single");
-  selDom.select2({
-    placeholder : "Type tab title or url to select it"
+  let $selectDom = $("#combo-box");
+  let select2 = $selectDom.select2({
+    placeholder: "Type tab title or URL to select it"
   });
-  var s = selDom.data('select2');
-  var c = s.$container;
-  var r = s.$results;
+  let s = $selectDom.data('select2');
+  let c = s.$container;
+  let r = s.$results;
+
   setTimeout(function() {
-    // Send a resize event with the exact size
-    var wid = c.outerWidth() + 30;
-    s.open();
-    var hei = r.outerHeight() + 100;
-    console.log("Width Height " , wid , "-" , hei);
-    var size = getScreenSize();
-    addon.port.emit('resize',{width:wid,height: hei, left : (size.width-wid)/2 });
-  },1);
+    resize(s, c, r);
+  }, 1);
 }
+
+function resize($select2, $container, $results) {
+  let width = $container.outerWidth() + 30;
+  $select2.open();
+  let height = $results.outerHeight() + 100;
+  let screenSize = getScreenSize();
+  let newSize = {
+    width: width,
+    height: height,
+    left: (screenSize.width - width)/2
+  }
+  addon.port.emit('resize', newSize);
+}
+
 function destroy() {
-  var selDom = $(".js-example-basic-single");
-  selDom.select2("destroy");
+  let $selectDom = $("#combo-box");
+  $selectDom.select2("destroy");
 }
+
 function createList(arr) {
-  var strArr = arr.map(function(x) {
-    var title = x.title || "";
-    title = title.length > 100 ? title.substr(0,98) + ".." : title;
-    return "<option value='"+x.url+"'>"+title+"</option>";
+  let strArr = arr.map(function(x) {
+    let title = x.title || '';
+    title = title.length > 100 ? title.substr(0, 98) + ".." : title;
+    return "<option value='" + x.id + "'>" + title + "</option>";
   });
-  var selDom = $(".js-example-basic-single");
-  selDom.html(strArr.join(""));  
+  let $selectDom = $("#combo-box");
+  $selectDom.html(strArr.join(''));
 }
-function selectTab(ind, url,name) {
+
+function selectTab(id) {
   if (typeof addon == "object") {
-    addon.port.emit('selectTab',{index : ind, url : url ,name : name});
+    addon.port.emit('selectTab', id);
   }
 };
 
 function initEvents() {
-  var selDom = $(".js-example-basic-single");
-  selDom.on('select2:close',function(e) {
-    var url = selDom.val();
-    var html = selDom.find(":selected").html();
-    var ind =  selDom.find(":selected").index();
-    selDom.data('select2').close();
-    selectTab(ind , url , html);
+  let $selectDom = $("#combo-box");
+  $selectDom.on('select2:close', function(e) {
+    let id = $selectDom.find(":selected").val();
+    $selectDom.data('select2').close();
+    selectTab(id);
+    destroy();
   });
 }
 
 if (typeof addon != "undefined") {
-  addon.on('message',function(msg) {
-    var arr = JSON.parse(msg);
+  addon.on('message', function(msg) {
+    let arr = JSON.parse(msg);
     createList(arr);
     init();
     initEvents();
   });
 };
-
-console.log("in indexxxx ");
